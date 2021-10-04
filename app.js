@@ -3,6 +3,9 @@ let color1 = document.querySelector(".color1");
 let color2 = document.querySelector(".color2");
 let body = document.getElementById("gradient");
 let randomize = document.querySelector(".randomize");
+let randomizeAnimation = document.querySelector(".transition-colors");
+
+let interval;
 
 
 
@@ -12,6 +15,8 @@ function randomRGB(){
     const b = Math.floor(Math.random() * 256);
     return `rgb(${r},${g},${b})`;
 }
+
+
 
 function setGradient() {
     body.style.background = 
@@ -28,8 +33,9 @@ function setGradient() {
 
 
 function setRandomGradient() {
-    //color1.value = randomRGB();
-    //color2.value = randomRGB();
+    if (interval) {
+        clearInterval(interval)
+    };
     body.style.background = 
     "linear-gradient(to right, " 
     + randomRGB()
@@ -39,9 +45,26 @@ function setRandomGradient() {
 
     css.textContent = body.style.background + ";"
 }
- 
 
-//body.style.background= randomRGB();
+function randomGradientAnimator() {
+    //color1.value = randomRGB();
+    //color2.value = randomRGB();
+    
+    body.style.background = 
+    "linear-gradient(to right, " 
+    + randomRGB()
+    + ", " 
+    + randomRGB()
+    + ")";
+
+    css.textContent = body.style.background + ";"
+}
+
+function randomAnimator(){
+    interval = setInterval(randomGradientAnimator, 1000);
+    body.classList.toggle("gradient")
+}
+
 
 
 color1.addEventListener('input', setGradient)
@@ -49,3 +72,5 @@ color1.addEventListener('input', setGradient)
 color2.addEventListener('input', setGradient)
 
 randomize.addEventListener('click', setRandomGradient)
+
+randomizeAnimation.addEventListener('click', randomAnimator)
